@@ -33,91 +33,98 @@ $result = mysqli_query($koneksi, $query);
     <meta charset="UTF-8">
     <title>Cetak Transaksi Selesai</title>
 
-    <!-- Tailwind -->
-    <link rel="stylesheet" href="../public/src/output.css">
-
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../public/src/output.css">
 
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-
         @media print {
             body {
                 background: white !important;
-            }
-            .shadow-md {
-                box-shadow: none !important;
             }
         }
     </style>
 </head>
 
-<body onload="window.print()" class="bg-gray-100">
+<body onload="window.print()" class="bg-gray-100 font-serif">
 
-<div class="max-w-5xl mx-auto bg-white p-8 shadow-md rounded-lg">
+<div class="max-w-5xl mx-auto bg-white p-10 shadow-md">
 
-    <!-- KOP -->
-    <div class="text-center border-b-4 border-black pb-4 mb-6">
-        <h1 class="text-2xl font-bold">PERPUSTAKAAN SEKOLAH</h1>
-        <h2 class="text-lg font-semibold">SMK AL-MADANI GARUT</h2>
-        <p class="text-sm text-gray-600">
-            Jl. Raya Samarang No.2332, Garut, Jawa Barat 44161
-        </p>
+    <!-- KOP SURAT -->
+    <div class="flex items-center justify-between border-b-4 border-black pb-4 mb-6">
+
+        <!-- LOGO KIRI -->
+        <img src="../img/logo.png" class="w-20 h-20 object-contain">
+
+        <!-- TEXT -->
+        <div class="text-center flex-1">
+            <h1 class="text-2xl font-bold uppercase">
+                PERPUSTAKAAN SEKOLAH
+            </h1>
+            <h2 class="text-lg font-semibold uppercase">
+                SMK AL-MADANI GARUT
+            </h2>
+            <p class="text-sm text-gray-600">
+                Jl. Raya Samarang No.2332, Garut, Jawa Barat 44161
+            </p>
+        </div>
+
+        <!-- LOGO KANAN -->
+        <img src="../img/almadai.png" class="w-20 h-20 object-contain">
     </div>
 
     <!-- JUDUL -->
     <div class="text-center mb-6">
-        <h3 class="text-lg font-semibold underline">
-            LAPORAN TRANSAKSI SELESAI
+        <h3 class="text-lg font-semibold uppercase underline">
+            Laporan Transaksi Selesai
         </h3>
     </div>
 
-    <!-- TABEL -->
-    <div class="overflow-x-auto">
-        <table class="w-full text-sm border border-gray-300">
-            <thead class="bg-gray-200">
-                <tr>
-                    <th class="p-2 border">No</th>
-                    <th class="p-2 border">Nama</th>
-                    <th class="p-2 border">Buku</th>
-                    <th class="p-2 border">Tanggal Pinjam</th>
-                    <th class="p-2 border">Tanggal Kembali</th>
-                    <th class="p-2 border">Status</th>
-                </tr>
-            </thead>
+    <!-- DESKRIPSI -->
+    <p class="mb-6 text-sm">
+        Berikut adalah data transaksi peminjaman dan pengembalian buku yang telah selesai:
+    </p>
 
-            <tbody>
-                <?php
-                $no = 1;
-                while ($data = mysqli_fetch_assoc($result)) {
-                ?>
-                <tr>
-                    <td class="p-2 border text-center"><?= $no++; ?></td>
-                    <td class="p-2 border"><?= $data['nama']; ?></td>
-                    <td class="p-2 border"><?= $data['judul_buku']; ?></td>
-                    <td class="p-2 border text-center"><?= date('d M Y', strtotime($data['tanggal_pinjam'])); ?></td>
-                    <td class="p-2 border text-center"><?= date('d M Y', strtotime($data['tanggal_kembali'])); ?></td>
-                    <td class="p-2 border text-center">
-                        <span class="px-2 py-1 rounded text-xs bg-blue-200 text-blue-800">
-                            Selesai
-                        </span>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-    </div>
+    <!-- TABEL -->
+    <table class="w-full text-sm border border-black">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="border border-black p-2 w-10">No</th>
+                <th class="border border-black p-2">Nama</th>
+                <th class="border border-black p-2">Buku</th>
+                <th class="border border-black p-2">Tanggal Pinjam</th>
+                <th class="border border-black p-2">Tanggal Kembali</th>
+                <th class="border border-black p-2">Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php 
+            $no = 1;
+            while ($data = mysqli_fetch_assoc($result)) { ?>
+            <tr>
+                <td class="border border-black p-2 text-center"><?= $no++; ?></td>
+                <td class="border border-black p-2"><?= $data['nama']; ?></td>
+                <td class="border border-black p-2"><?= $data['judul_buku']; ?></td>
+                <td class="border border-black p-2 text-center">
+                    <?= date('d M Y', strtotime($data['tanggal_pinjam'])); ?>
+                </td>
+                <td class="border border-black p-2 text-center">
+                    <?= date('d M Y', strtotime($data['tanggal_kembali'])); ?>
+                </td>
+                <td class="border border-black p-2 text-center">
+                    Selesai
+                </td>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
 
     <!-- TTD -->
-    <div class="mt-12 flex justify-end">
+    <div class="mt-16 flex justify-end">
         <div class="text-center">
-            <p>Garut, <?= date("d M Y"); ?></p>
-            <p class="mb-16">Kepala Perpustakaan</p>
-            <p class="border-t border-black w-40 mx-auto pt-1">
-                (............................)
+            <p>Garut, <?= date("d F Y"); ?></p>
+            <p class="mb-20">Kepala Perpustakaan</p>
+            <p class="border-t border-black w-48 mx-auto pt-1">
+                ( ......... )
             </p>
         </div>
     </div>

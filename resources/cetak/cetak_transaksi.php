@@ -22,122 +22,112 @@ $result = mysqli_query($koneksi, $query);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title></title>
+    <meta charset="UTF-8">
+    <title>Cetak Transaksi</title>
+
+    <!-- Tailwind -->
+    <link rel="stylesheet" href="../../public/src/output.css">
+
     <style>
-        body {
-            font-family: "Times New Roman", serif;
-            margin: 40px;
-        }
-
-        .kop {
-            text-align: center;
-            line-height: 1.5;
-        }
-
-        .kop h2, .kop h3 {
-            margin: 0;
-        }
-
-        .line {
-            border-top: 3px solid black;
-            margin: 10px 0 20px 0;
-        }
-
-        .judul {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-
-        table, th, td {
-            border: 1px solid black;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: center;
-        }
-
-        .ttd {
-            margin-top: 50px;
-            width: 100%;
-        }
-
-        .ttd-kanan {
-            float: right;
-            text-align: center;
-        }
-
-        .clear {
-            clear: both;
+        @media print {
+            body {
+                background: white !important;
+            }
         }
     </style>
 </head>
 
-<body onload="window.print()">
+<body onload="window.print()" class="bg-gray-200 font-serif">
 
-    <!-- KOP SURAT -->
-    <div class="kop">
-        <h2>PERPUSTAKAAN SEKOLAH</h2>
-        <h3>SMK AL- MADANI GARUT</h3>
-        <p>Jl. Raya Samarang No.2332, Desa/Kecamatan Samarang, Kabupaten Garut, Jawa Barat, Kode Pos 44161</p>
+<div class="flex items-center justify-between border-b-4 border-black pb-4 mb-6">
+
+    <!-- LOGO KIRI -->
+    <img src="../img/logo.png" class="w-60 h-16 object-contain">
+
+    <!-- TEXT TENGAH -->
+    <div class="text-center flex-1">
+        <h2 class="text-lg font-bold tracking-wide">
+            PERPUSTAKAAN SEKOLAH
+        </h2>
+        <h3 class="text-base font-semibold">
+            SMK AL-MADANI GARUT
+        </h3>
+        <p class="text-xs text-gray-600">
+            Jl. Raya Samarang No.2332, Garut, Jawa Barat 44161
+        </p>
     </div>
 
-    <div class="line"></div>
+    <!-- LOGO KANAN -->
+    <img src="../img/almadai.png" class="w-62 h-16 object-contain">
+
+</div>
 
     <!-- JUDUL -->
-    <div class="judul">
-        <h3><u>LAPORAN DATA TRANSAKSI</u></h3>
+    <div class="text-center mb-6">
+        <h3 class="text-base font-bold uppercase">
+            Laporan Data Transaksi
+        </h3>
     </div>
 
+    <!-- DESKRIPSI -->
+    <p class="text-sm mb-4">
+        Berikut adalah data transaksi peminjaman dan pengembalian buku:
+    </p>
+
     <!-- TABEL -->
-    <table>
+    <table class="w-full text-sm border border-black">
         <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>Buku</th>
-                <th>Tgl Pinjam</th>
-                <th>Tgl Kembali</th>
-                <th>Status</th>
+            <tr class="bg-gray-100">
+                <th class="border border-black p-2 w-10">No</th>
+                <th class="border border-black p-2 text-left">Nama</th>
+                <th class="border border-black p-2 text-left">Buku</th>
+                <th class="border border-black p-2 text-center">Tgl Pinjam</th>
+                <th class="border border-black p-2 text-center">Tgl Kembali</th>
+                <th class="border border-black p-2 text-center">Status</th>
             </tr>
         </thead>
+
         <tbody>
             <?php 
             $no = 1;
             while ($row = mysqli_fetch_assoc($result)) { ?>
-                <tr>
-                    <td><?php echo $no++; ?></td>
-                    <td style="text-align:left;"><?php echo $row['nama']; ?></td>
-                    <td style="text-align:left;"><?php echo $row['judul_buku']; ?></td>
-                    <td><?php echo date('d-m-Y', strtotime($row['tanggal_pinjam'])); ?></td>
-                    <td><?php echo date('d-m-Y', strtotime($row['tanggal_kembali'])); ?></td>
-                    <td><?php echo $row['status']; ?></td>
-                </tr>
+            <tr>
+                <td class="border border-black p-2 text-center"><?php echo $no++; ?></td>
+                <td class="border border-black p-2"><?php echo $row['nama']; ?></td>
+                <td class="border border-black p-2"><?php echo $row['judul_buku']; ?></td>
+                <td class="border border-black p-2 text-center">
+                    <?php echo date('d-m-Y', strtotime($row['tanggal_pinjam'])); ?>
+                </td>
+                <td class="border border-black p-2 text-center">
+                    <?php echo date('d-m-Y', strtotime($row['tanggal_kembali'])); ?>
+                </td>
+                <td class="border border-black p-2 text-center">
+                    <?php echo ucfirst($row['status']); ?>
+                </td>
+            </tr>
             <?php } ?>
         </tbody>
     </table>
 
-    <!-- TANDA TANGAN -->
-    <div class="ttd">
-        <div class="ttd-kanan">
-            <p>Garut, <?php echo date("d M Y"); ?></p>
-            <p>Petugas Perpustakaan</p>
+    <!-- TTD -->
+    <div class="mt-12 flex justify-end">
+        <div class="text-center">
+            <p class="text-sm mb-1">
+                Garut, <?php echo date("d F Y"); ?>
+            </p>
+            <p class="text-sm mb-16">
+                Petugas Perpustakaan
+            </p>
 
-            <br><br><br>
-
-            <p><u>_____________________</u></p>
+            <p class="border-t border-black w-48 mx-auto pt-1 ">
+                ( ................................. )
+            </p>
         </div>
     </div>
 
-    <div class="clear"></div>
+</div>
 
 </body>
 </html>
