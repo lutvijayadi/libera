@@ -1,0 +1,23 @@
+{
+  "name": "libera",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "init": "^0.1.2",
+    "npx": "^10.2.2",
+    "tailwindcss": "^4.2.2"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.2.2"
+  },
+
+  "scripts": {
+  "dev": "npx tailwindcss -i ./public/src/input.css -o ./public/src/output.css --watch",
+  "build": "npx tailwindcss -i ./public/src/input.css -o ./public/src/output.css --minify"
+}
+}
+
