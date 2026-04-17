@@ -2,8 +2,22 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+include '../config/koneksi.php';
+
+// hitung jumlah notif
+$query_jumlah = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM notif");
+$data_jumlah = mysqli_fetch_assoc($query_jumlah);
+$total_notif = $data_jumlah['total'];
 // Deteksi halaman aktif untuk styling otomatis
 $current_page = basename($_SERVER['PHP_SELF']);
+$id_users = $_SESSION['id_users'] ?? 0;
+
+$query_jumlah = mysqli_query($koneksi, "
+    SELECT COUNT(*) as total 
+    FROM notif 
+    JOIN transaksi ON notif.id_transaksi = transaksi.id_transaksi
+    WHERE transaksi.id_users = '$id_users'
+");
 ?>
 
 <aside id="default-sidebar"
@@ -52,6 +66,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     class="w-5 h-5 mr-3 <?php echo ($current_page == 'transaksi.php') ? '' : 'opacity-80 group-hover:opacity-100'; ?>">
                 <span>Transaksi</span>
             </a>
+            <a href="../admin/konfirmasi_pinjam.php"
+                class="flex items-center p-3 text-sm rounded-xl transition-all duration-200 group <?php echo ($current_page == 'konfirmasi_pinjam.php') ? 'bg-white text-blue-600 shadow-lg scale-105' : 'text-white hover:bg-blue-500/50 hover:translate-x-1'; ?>">
+
+                <img src="../resources/img/verifikasi.png"
+                    class="w-5 h-5 mr-3 <?php echo ($current_page == 'konfirmasi_pinjam.php') ? '' : 'opacity-80 group-hover:opacity-100'; ?>">
+                <span>Konfirmasi peminjaman</span>
+            </a>
         </nav>
 
         <div class="mt-auto pt-6 border-t border-blue-400/30">
@@ -66,6 +87,23 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <p class="text-xs text-blue-200 capitalize">Administrator</p>
                 </div>
             </div>
+            <a href="../admin/notifications.php"
+                class="flex items-center justify-between p-3 text-sm rounded-xl transition-all duration-200 group <?php echo ($current_page == 'notifications.php') ? 'bg-white text-blue-600 shadow-lg scale-105' : 'text-white hover:bg-blue-500/50 hover:translate-x-1'; ?>">
+
+                <div class="flex items-center">
+                    <img src="../resources/img/notif.png"
+                        class="w-5 h-5 mr-3 <?php echo ($current_page == 'notifications.php') ? '' : 'opacity-80 group-hover:opacity-100'; ?>">
+                    <span>Notifications</span>
+                </div>
+
+                <!-- BADGE ANGKA -->
+                <?php if ($total_notif > 0): ?>
+                    <span class="bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                        <?= $total_notif; ?>
+                    </span>
+                <?php endif; ?>
+
+            </a>
 
             <a href="../auth/logout.php" onclick="return confirm('Yakin mau keluar?')"
                 class="flex items-center p-3 text-sm font-medium text-red-200 rounded-xl hover:bg-red-500/20 hover:text-red-100 transition-all">

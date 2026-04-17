@@ -16,16 +16,20 @@ if (!isset($_SESSION['username'])) {
 
 // Query to fetch all notifications
 $query_notif = mysqli_query($koneksi, "SELECT * FROM notif ORDER BY created_at DESC");
-?>
 
+// hitung jumlah notif (misalnya semua notif)
+$query_jumlah = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM notif");
+$data_jumlah = mysqli_fetch_assoc($query_jumlah);
+$total_notif = $data_jumlah['total'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="../public/src/output.css">
-   
+    <link rel="stylesheet" href="../public/src/output.css">
+
     <title>Notifikasi - Libera Admin</title>
 </head>
 
@@ -37,8 +41,18 @@ $query_notif = mysqli_query($koneksi, "SELECT * FROM notif ORDER BY created_at D
     <main class="ml-60 p-4 min-h-screen">
         <section>
             <div class="mt-6 bg-linear-to-r from-[#2563eb] to-[#3b82f6] p-6 rounded-xl shadow text-white">
-                <h2 class="text-2xl font-semibold mb-1">
+                <h2 class="flex items-center gap-3 text-2xl font-semibold mb-1">
+
                     Notifikasi
+
+                    <!-- TITIK + ANGKA -->
+                    <?php if ($total_notif > 0): ?>
+                        <span
+                            class="flex items-center justify-center bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                            <?= $total_notif; ?>
+                        </span>
+                    <?php endif; ?>
+
                 </h2>
                 <p class="text-sm opacity-90">
                     Lihat semua aktivitas peminjaman buku oleh pengguna.

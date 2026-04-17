@@ -205,12 +205,6 @@ while ($row = mysqli_fetch_assoc($peminjaman)) {
                 <h2 class="text-lg font-semibold text-gray-700 mb-4 mt-6">
                     Aktivitas Terbaru
                 </h2>
-                <a href="../admin/notifications.php"
-                    class="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all shadow-md hover:shadow-lg text-sm">
-                    <img src="../resources/img/notif.png" class="w-4 h-4">
-                    lihat notifikasi
-                </a>
-
             </div>
         </section>
 
@@ -220,7 +214,6 @@ while ($row = mysqli_fetch_assoc($peminjaman)) {
                 <h2 class="text-lg font-semibold mb-4">
                     Grafik Anggota Bulanan
                 </h2>
-
                 <canvas id="chartAnggota"></canvas>
             </div>
             <div class="bg-white rounded-xl shadow p-6">
@@ -258,28 +251,28 @@ while ($row = mysqli_fetch_assoc($peminjaman)) {
         });
     </script>
     <script>
-const ctxPinjam = document.getElementById('chartPeminjaman');
+        const ctxPinjam = document.getElementById('chartPeminjaman');
 
-new Chart(ctxPinjam, {
-    type: 'line', // bisa ganti: bar / line
-    data: {
-        labels: <?= json_encode($bulan_pinjam); ?>,
-        datasets: [{
-            label: 'Jumlah Peminjaman',
-            data: <?= json_encode($jumlah_pinjam); ?>,
-            borderWidth: 2,
-            tension: 0.3
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
+        new Chart(ctxPinjam, {
+            type: 'line', // bisa ganti: bar / line
+            data: {
+                labels: <?= json_encode($bulan_pinjam); ?>,
+                datasets: [{
+                    label: 'Jumlah Peminjaman',
+                    data: <?= json_encode($jumlah_pinjam); ?>,
+                    borderWidth: 2,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
-        }
-    }
-});
-</script>
+        });
+    </script>
 </body>
 
 </html>

@@ -47,8 +47,10 @@ if ($query) {
     $message = "$nama meminjam buku $judul sebanyak $total_pinjam buku.";
     $message = mysqli_real_escape_string($koneksi, $message);
 
-    mysqli_query($koneksi, "INSERT INTO notif (id_transaksi, message) 
-    VALUES ('$id_transaksi', '$message')");
+    mysqli_query($koneksi, "
+    INSERT INTO notif (id_transaksi, id_users, message) 
+    VALUES ('$id_transaksi', '$id_users', '$message')
+");
 
     // kurangi stok
     mysqli_query($koneksi, "UPDATE buku 
